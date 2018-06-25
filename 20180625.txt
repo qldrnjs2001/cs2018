@@ -17,7 +17,7 @@ rm // unstaged~
 
 rm --cached
 
-후에 다시 commit 해야함
+후에 다시 commit 해야함 // untracked
 
 remote add origin 주소 // 원격 저장소 지정
 
