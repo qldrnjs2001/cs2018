@@ -1,0 +1,24 @@
+add -> commit -> push
+
+add 
+commit 
+push 원격으로 넘어감
+
+git init //git 기동 .git directory 생성
+
+tracked, untracked -> add
+git이 관리하는, 하지 않는
+
+staged, unstaged -> commit
+저장소에 들어갔다, 아니다
+tracked 된 파일 중에서만 가능
+
+rm // unstaged~
+
+rm --cached
+
+후에 다시 commit 해야함
+
+remote add origin 주소 // 원격 저장소 지정
+
+push -u origin master // 처음에 실행 - 로그인
