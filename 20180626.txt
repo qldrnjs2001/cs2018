@@ -1,0 +1,8 @@
+git checkout <commit hash> // 과거 저장구간으로 돌아감
+
+복귀 : git checkout master
+
+readme.md
+
+설명 사항 추가
+
