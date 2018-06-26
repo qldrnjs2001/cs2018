@@ -1,2 +1,2 @@
 ﻿  exam_3.cpp
-  exam_3.vcxproj -> C:\Users\USER\Desktop\work\cs2018\d_2\Debug\exam_3.exe
+c:\users\user\desktop\work\cs2018\d_2\exam_3\exam_3.cpp(17): error C4700: 초기화되지 않은 '_hap' 지역 변수를 사용했습니다.
