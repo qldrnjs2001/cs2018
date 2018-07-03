@@ -1,3 +1,3 @@
 ﻿  exam_7.cpp
-c:\users\user\desktop\work\cs2018\d_5\exam_7\exam_7.cpp(61): warning C4715: 'direction': 모든 제어 경로에서 값을 반환하지는 않습니다.
+c:\users\user\desktop\work\cs2018\d_5\exam_7\exam_7.cpp(62): warning C4715: 'direction': 모든 제어 경로에서 값을 반환하지는 않습니다.
   exam_7.vcxproj -> C:\Users\USER\Desktop\work\cs2018\d_5\Debug\exam_7.exe
