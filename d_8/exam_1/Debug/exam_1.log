@@ -1,0 +1,3 @@
+﻿  exam_1.cpp
+c:\users\user\desktop\work\cs2018\d_8\exam_1\exam_1.cpp(10): warning C4101: 'ipp' :참조되지 않은 지역 변수입니다.
+  exam_1.vcxproj -> C:\Users\USER\Desktop\work\cs2018\d_8\Debug\exam_1.exe
