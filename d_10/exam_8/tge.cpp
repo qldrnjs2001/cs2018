@@ -60,3 +60,16 @@ void drawBox(CHAR_INFO *pBuf, int _posx, int _posy, int _width, int _height)
 		}
 	}
 }
+
+void drawTriangle(CHAR_INFO *pBuf, int _posx, int _posy, int _height)
+{
+	int x, y;
+
+	for (y = 0; y < _height; y++)
+	{
+		for (x = 0; x < y; x++)
+		{
+			setCharacter(pBuf, _posx + x, _posy + y, 0x20, 0x000f);
+		}
+	}
+}
