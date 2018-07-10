@@ -22,6 +22,11 @@ namespace TGE
 		pBuf[(80 * y) + x].Attributes = attr;
 	}
 
+	CHAR_INFO *getCharacter(CHAR_INFO *pBuf, int x, int y)
+	{
+		return &(pBuf[(80 * y) + x]);
+	}
+
 	void clearScreenBuffer(WCHAR _wCode, WORD _wAttr)
 	{
 		CHAR_INFO *pBuf = TGE::g_chiBuffer;
@@ -124,5 +129,29 @@ namespace TGE
 		}
 
 		return _nTokenIndex;
+	}
+
+	int loadBinary(CHAR_INFO *pBuf, const char *szFileName)
+	{
+		FILE *fp;
+		fopen_s(&fp, szFileName, "r");
+
+		fread_s(pBuf, SCREEN_BUF_SIZE * sizeof(CHAR_INFO), sizeof(CHAR_INFO), SCREEN_BUF_SIZE, fp);
+
+		fclose(fp);
+
+		return 0;
+	}
+
+	int saveBinary(CHAR_INFO *pBuf, const char *szFileName)
+	{
+		FILE *fp;
+		fopen_s(&fp, szFileName, "w");
+
+		fwrite(pBuf, SCREEN_BUF_SIZE * sizeof(CHAR_INFO), 1, fp);
+
+		fclose(fp);
+
+		return 0;
 	}
 }
