@@ -1,8 +1,7 @@
 #include "stdafx.h"
 
 //80x25
-#define SCREEN_BUF_SIZE 2000
-#define SCREEN_WIDTH 80
+#include "tge.h"
 
 namespace TGE
 {
@@ -26,6 +25,12 @@ namespace TGE
 	{
 		return &(pBuf[(80 * y) + x]);
 	}
+
+	CHAR_INFO *CreateScreenBuffer()
+	{
+		return (CHAR_INFO *)malloc(sizeof(CHAR_INFO) * SCREEN_BUF_SIZE);
+	}
+	
 
 	void clearScreenBuffer(WCHAR _wCode, WORD _wAttr)
 	{
@@ -110,7 +115,7 @@ namespace TGE
 		}
 	}
 
-	int doTokenize(char *szBuf, char szBufToken[8][16])
+	int doTokenize(char *szBuf, char szBufToken[8][MAX_TOKEN_SIZE])
 	{
 		char *szpTemp;
 		char *pNextToken = NULL;
@@ -153,5 +158,32 @@ namespace TGE
 		fclose(fp);
 
 		return 0;
+	}
+
+	//sprite print
+	void putSprite(int posx, int posy, int destw, int desth, int srcw, int srch, CHAR_INFO *pDest, CHAR_INFO *pSrc)
+	{
+		//dsetw, h 출력될 버퍼의 넓이, 높이
+		//srcw, h 출력할 버퍼의 넓이, 높이
+
+		int _x;
+		int _y;
+		_x = posx;
+		_y = posy;
+		int src_buf_size = srcw * srch;
+		int nStep = 0;
+		int _i = 0;
+		for (int i = 0; i < src_buf_size; i++)
+		{
+			nStep = i / srcw;
+			pDest[_i + (nStep * SCREEN_WIDTH) + (_y*SCREEN_WIDTH + _x)] = pSrc[i];
+			_i++;
+			_i %= srcw;
+		}
+	}
+
+	void putSprite(int posx, int posy, int srcw, int srch, CHAR_INFO *pDest, CHAR_INFO *pSrc)
+	{
+		putSprite(posx, posy, SCREEN_WIDTH, 25, srcw, srch, pDest, pSrc);
 	}
 }

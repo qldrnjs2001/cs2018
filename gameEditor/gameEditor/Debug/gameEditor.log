@@ -1,0 +1,8 @@
+﻿  tge.cpp
+  tge_sprite.cpp
+  gameEditor.cpp
+  maptool.cpp
+c:\users\user\desktop\work\cs2018\gameeditor\gameeditor\maptool.cpp(35): warning C4244: '초기화 중': 'long'에서 'WCHAR'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\user\desktop\work\cs2018\gameeditor\gameeditor\maptool.cpp(36): warning C4244: '초기화 중': 'long'에서 'WORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  코드를 생성하고 있습니다...
+  gameEditor.vcxproj -> C:\Users\USER\Desktop\work\cs2018\gameEditor\Debug\gameEditor.exe
