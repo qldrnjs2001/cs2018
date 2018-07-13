@@ -36,11 +36,21 @@ namespace TGE
 	{
 		CHAR_INFO *pBuf = TGE::g_chiBuffer;
 
+		clearScreenBuffer(pBuf, _wCode, _wAttr);
+	}
+
+	void clearScreenBuffer(CHAR_INFO *pBuf, WCHAR _wCode, WORD _wAttr)
+	{
 		for (int i = 0; i < SCREEN_BUF_SIZE; i++)
 		{
 			pBuf[i].Char.UnicodeChar = _wCode;  //9643;
 			pBuf[i].Attributes = _wAttr;  //0x009f;
 		}
+	}
+
+	void CopyScreenBuffer(CHAR_INFO *pBufdest, CHAR_INFO *pBufsrc)
+	{
+		memcpy_s(pBufdest, SCREEN_BUF_SIZE * sizeof(CHAR_INFO), pBufsrc, SCREEN_BUF_SIZE * sizeof(CHAR_INFO));
 	}
 
 	void updateBuffer(HANDLE handle, CHAR_INFO *pBuf)
@@ -185,5 +195,98 @@ namespace TGE
 	void putSprite(int posx, int posy, int srcw, int srch, CHAR_INFO *pDest, CHAR_INFO *pSrc)
 	{
 		putSprite(posx, posy, SCREEN_WIDTH, 25, srcw, srch, pDest, pSrc);
+	}
+
+	namespace input {
+		char g_KeyTable[1024];
+		DWORD _oldInputMode;
+		HANDLE hStdin;
+		COORD g_cdMousePos;
+
+		DWORD WINAPI MyThreadFunction(LPVOID lpParam)
+		{
+			hStdin = GetStdHandle(STD_INPUT_HANDLE);
+			DWORD _NumRead;
+			INPUT_RECORD irInBuf[128];
+
+			GetConsoleMode(hStdin, &_oldInputMode);
+			SetConsoleMode(hStdin, ENABLE_EXTENDED_FLAGS | ENABLE_WINDOW_INPUT | ENABLE_MOUSE_INPUT);
+
+			while (1)
+			{
+				ReadConsoleInput(hStdin, irInBuf, 128, &_NumRead);
+
+				for (DWORD i = 0; i < _NumRead; i++)
+				{
+					if (irInBuf[i].EventType == KEY_EVENT)
+					{
+						if (irInBuf[i].Event.KeyEvent.bKeyDown)
+						{
+							g_KeyTable[irInBuf[i].Event.KeyEvent.wVirtualKeyCode] = 1;
+						}
+						else
+						{
+							g_KeyTable[irInBuf[i].Event.KeyEvent.wVirtualKeyCode] = 0;
+						}
+					}
+					else if (irInBuf[i].EventType == MOUSE_EVENT)
+					{
+						g_cdMousePos = { irInBuf[i].Event.MouseEvent.dwMousePosition.X, irInBuf[i].Event.MouseEvent.dwMousePosition.Y };
+					}
+
+				}
+				Sleep(1);
+			}
+
+			SetConsoleMode(hStdin, _oldInputMode);
+
+			return 0;
+		}
+
+		void setEditMode()
+		{
+			SetConsoleMode(hStdin, _oldInputMode);
+		}
+
+		void setNormalMode()
+		{
+			SetConsoleMode(hStdin, ENABLE_EXTENDED_FLAGS | ENABLE_WINDOW_INPUT | ENABLE_MOUSE_INPUT);
+		}
+	}
+
+	DWORD dwThreadId_ReadInput;
+	HANDLE hThread_ReadInput;
+
+	void startTGE(HANDLE *phStdout)
+	{
+		*phStdout = GetStdHandle(STD_OUTPUT_HANDLE);
+
+		TGE::clearScreenBuffer(0x20, 0x0090);
+
+		hThread_ReadInput = CreateThread(NULL, 0, input::MyThreadFunction, NULL, 0, &dwThreadId_ReadInput);
+	}
+
+	void endTGE()
+	{
+
+	}
+
+	namespace util 
+	{
+		UINT64 GetTimeMs64()
+		{
+			FILETIME ft;
+			LARGE_INTEGER li;
+
+			GetSystemTimeAsFileTime(&ft);
+			li.LowPart = ft.dwLowDateTime;
+			li.HighPart = ft.dwHighDateTime;
+
+			UINT64 ret_value = li.QuadPart;
+			ret_value -= 116444736000000000LL;
+			ret_value /= 10000;
+
+			return ret_value;
+		}
 	}
 }
