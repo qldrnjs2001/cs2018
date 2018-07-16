@@ -10,7 +10,7 @@ namespace TGE
 	void setCharacter(CHAR_INFO *pBuf, int x, int y, WCHAR code, WORD attr);
 	void clearScreenBuffer(WCHAR _wCode, WORD _wAttr);
 	void clearScreenBuffer(CHAR_INFO *pBuf, WCHAR _wCode, WORD _wAttr);
-	void CopyScreenBuffer(CHAR_INFO *pBufdest, CHAR_INFO *pBufsrc);
+	void copyScreenBuffer(CHAR_INFO *pBufdest, CHAR_INFO *pBufsrc);
 
 	void updateBuffer(HANDLE handle, CHAR_INFO *pBuf);
 	CHAR_INFO *getCharacter(CHAR_INFO *pBuf, int x, int y);

@@ -14,6 +14,7 @@ namespace tge_sprite {
 	};
 
 	void Init(S_SPRITE_OBJECT *pObj);
+	void Release(S_SPRITE_OBJECT *pObj);
 	int load(S_SPRITE_OBJECT *pObj, const char *szFileName);
 	int save(S_SPRITE_OBJECT *pObj, const char *szFileName);
 	int put(S_SPRITE_OBJECT *pObj, int posx, int posy);

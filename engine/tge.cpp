@@ -48,7 +48,7 @@ namespace TGE
 		}
 	}
 
-	void CopyScreenBuffer(CHAR_INFO *pBufdest, CHAR_INFO *pBufsrc)
+	void copyScreenBuffer(CHAR_INFO *pBufdest, CHAR_INFO *pBufsrc)
 	{
 		memcpy_s(pBufdest, SCREEN_BUF_SIZE * sizeof(CHAR_INFO), pBufsrc, SCREEN_BUF_SIZE * sizeof(CHAR_INFO));
 	}

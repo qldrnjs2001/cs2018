@@ -12,6 +12,10 @@ namespace tge_sprite {
 		strcpy_s(pObj->m_header.szHeader, sizeof(pObj->m_header.szHeader), "TGESPR");
 		pObj->m_pSpriteBuf = NULL;
 	}
+	void Release(S_SPRITE_OBJECT *pObj)
+	{
+		free(pObj->m_pSpriteBuf);
+	}
 
 	int load(S_SPRITE_OBJECT *pObj, const char *szFileName)
 	{
