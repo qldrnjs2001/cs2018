@@ -52,21 +52,29 @@ namespace plusEngine {
 
 
 	//DWORD WINAPI ThreadFunc(LPVOID temp)
+	void (*fpOnSetup)();
 	void (*fpOnLoop)(double);
 	void(*fpOnRender)(double,Graphics*);
 
-	void GDIPLUS_Loop(MSG &msg, Gdiplus::Rect rectScreen)
+	void GDIPLUS_Loop(MSG &msg, Gdiplus::Rect rectScreen, void(*_fpOnSetup)(), void(*_fpOnLoop)(double), void(*_fpOnRender)(double, Graphics*))
 	{
 		//----------------------------------------------------------------------
 		//gdi plus 초기화 코드 
 		GdiplusStartupInput gdiplusStartupInput;
 		ULONG_PTR           gdiplusToken;
-		fpOnLoop = NULL;
-		fpOnRender = NULL;
+
+		fpOnSetup = _fpOnSetup;
+		fpOnLoop = _fpOnLoop;
+		fpOnRender = _fpOnRender;
 
 		// Initialize GDI+.
 		GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
 		//-----------------------------------------------------------------------
+
+		if (fpOnSetup != NULL)
+		{
+			fpOnSetup();
+		}
 
 		{
 			bool quit = false;
@@ -115,6 +123,11 @@ namespace plusEngine {
 		//gdi plus 종료코드 
 		GdiplusShutdown(gdiplusToken);
 		//--------------------------------------
+	}
+
+	void GDIPLUS_Loop(MSG &msg, Gdiplus::Rect rectScreen)
+	{
+		GDIPLUS_Loop(msg, rectScreen, NULL, NULL, NULL);
 	}
 		
 
