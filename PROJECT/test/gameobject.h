@@ -14,6 +14,7 @@ namespace cs2018prj
 		irr::core::vector2df m_translation;  // 위치 기준으로 다시 이동
 		int m_nFSM;
 		bool m_bActive;
+		void *m_pTarget;
 		void(*m_fpApply)(S_GAMEOBJECT *, double);
 		void(*m_fpRender)(S_GAMEOBJECT *, CHAR_INFO *);
 		void(*m_fpClone)(S_GAMEOBJECT *pObj);
@@ -31,7 +32,7 @@ namespace cs2018prj
 		void Activate(S_GAMEOBJECT *pObj);
 	}
 
-	namespace ailenObject
+	namespace enemyObject
 	{
 		struct S_SUBOBJECT
 		{
@@ -46,7 +47,7 @@ namespace cs2018prj
 
 	namespace attackObject
 	{
-		namespace claw
+		namespace beam
 		{
 			struct S_SUBOBJECT
 			{
@@ -55,7 +56,7 @@ namespace cs2018prj
 
 			void Init(S_GAMEOBJECT *pObj, irr::core::vector2df _pos, double _dbspeed, tge_sprite::S_SPRITE_OBJECT *pSpr);
 			void Apply(S_GAMEOBJECT *pObj, double _deltaTick);
-			void Render(S_GAMEOBJECT *pObj, CHAR_INFO *pTargetBuf);
+			void Activate(S_GAMEOBJECT *pObj);
 		}
 
 		namespace fire
