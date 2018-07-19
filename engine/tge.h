@@ -1,7 +1,8 @@
 #pragma once
 
 #define SCREEN_BUF_SIZE 2000
-#define SCREEN_WIDTH 80
+#define SCREEN_WIDTH 50
+#define SCREEN_HEIGHT SCREEN_BUF_SIZE/SCREEN_WIDTH
 #define MAX_TOKEN_SIZE 64
 
 namespace TGE

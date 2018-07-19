@@ -17,13 +17,13 @@ namespace TGE
 
 	void setCharacter(CHAR_INFO *pBuf, int x, int y, WCHAR code, WORD attr)
 	{
-		pBuf[(80 * y) + x].Char.UnicodeChar = code;
-		pBuf[(80 * y) + x].Attributes = attr;
+		pBuf[(SCREEN_WIDTH * y) + x].Char.UnicodeChar = code;
+		pBuf[(SCREEN_WIDTH * y) + x].Attributes = attr;
 	}
 
 	CHAR_INFO *getCharacter(CHAR_INFO *pBuf, int x, int y)
 	{
-		return &(pBuf[(80 * y) + x]);
+		return &(pBuf[(SCREEN_WIDTH * y) + x]);
 	}
 
 	CHAR_INFO *CreateScreenBuffer()
@@ -58,8 +58,8 @@ namespace TGE
 		COORD coordBufSize;
 		COORD coordBufferCoord;
 
-		coordBufSize.X = 80;
-		coordBufSize.Y = 25;
+		coordBufSize.X = SCREEN_WIDTH;
+		coordBufSize.Y = SCREEN_HEIGHT;
 		coordBufferCoord.X = 0;
 		coordBufferCoord.Y = 0;
 
@@ -194,7 +194,7 @@ namespace TGE
 
 	void putSprite(int posx, int posy, int srcw, int srch, CHAR_INFO *pDest, CHAR_INFO *pSrc)
 	{
-		putSprite(posx, posy, SCREEN_WIDTH, 25, srcw, srch, pDest, pSrc);
+		putSprite(posx, posy, SCREEN_WIDTH, SCREEN_HEIGHT, srcw, srch, pDest, pSrc);
 	}
 
 	namespace input {

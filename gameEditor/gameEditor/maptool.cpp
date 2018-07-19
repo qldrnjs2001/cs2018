@@ -70,7 +70,7 @@ int parseCmd(S_TGE_MAPTOOL *pObj, char *szCmdBuf)
 	}
 	else if (!strcmp(szTokenBuf[0], "clear"))
 	{
-		clearScreenBuffer(0x2e, 0x0007);
+		clearScreenBuffer(0x20, 0x0007);
 	}
 	else if (!strcmp(szTokenBuf[0], "changeBrush"))
 	{

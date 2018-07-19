@@ -1,3 +1,11 @@
-﻿  exam_1.cpp
-c:\users\user\desktop\work\cs2018\d_17\exam_1\exam_1.cpp(34): warning C4101: 'objClaw' :참조되지 않은 지역 변수입니다.
+﻿  gameObject.cpp
+c:\users\user\desktop\work\cs2018\d_17\exam_1\gameobject.cpp(50): warning C4244: '-=': 'double'에서 'irr::f32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\user\desktop\work\cs2018\d_17\exam_1\gameobject.cpp(54): warning C4244: '+=': 'double'에서 'irr::f32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\user\desktop\work\cs2018\d_17\exam_1\gameobject.cpp(58): warning C4244: '-=': 'double'에서 'irr::f32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\user\desktop\work\cs2018\d_17\exam_1\gameobject.cpp(62): warning C4244: '+=': 'double'에서 'irr::f32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\user\desktop\work\cs2018\d_17\exam_1\gameobject.cpp(99): warning C4244: '인수': 'double'에서 'irr::f32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\user\desktop\work\cs2018\d_17\exam_1\gameobject.cpp(156): warning C4244: '인수': 'double'에서 'const irr::f32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\user\desktop\work\cs2018\d_17\exam_1\gameobject.cpp(157): warning C4244: '인수': 'double'에서 'const irr::f32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\user\desktop\work\cs2018\d_17\exam_1\gameobject.cpp(223): warning C4244: '인수': 'double'에서 'const irr::f32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+c:\users\user\desktop\work\cs2018\d_17\exam_1\gameobject.cpp(224): warning C4244: '인수': 'double'에서 'const irr::f32'(으)로 변환하면서 데이터가 손실될 수 있습니다.
   exam_1.vcxproj -> C:\Users\USER\Desktop\work\cs2018\d_17\Debug\exam_1.exe

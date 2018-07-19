@@ -1,0 +1,10 @@
+﻿  exam_3_udp1.cpp
+c:\users\user\desktop\work\cs2018\d_19\d_19\exam_3_udp1.cpp(18): warning C4477: 'printf_s' : 서식 문자열 '%f'에 'double' 형식의 인수가 필요하지만 variadic 인수 1의 형식이 'int'입니다.
+c:\users\user\desktop\work\cs2018\d_19\d_19\exam_3_udp1.cpp(18): warning C4473: 'printf_s': 서식 문자열에 대한 인수가 충분하게 전달되지 않았습니다.
+  c:\users\user\desktop\work\cs2018\d_19\d_19\exam_3_udp1.cpp(18): note: 자리 표시자 및 해당 매개 변수에는 variadic 인수가 2개 필요하지만 1개가 제공되었습니다.
+  c:\users\user\desktop\work\cs2018\d_19\d_19\exam_3_udp1.cpp(18): note: 누락된 variadic 인수 2이(가) 서식 문자열 '%d'에 필요합니다.
+c:\users\user\desktop\work\cs2018\d_19\d_19\exam_3_udp1.cpp(24): warning C4477: 'printf_s' : 서식 문자열 '%f'에 'double' 형식의 인수가 필요하지만 variadic 인수 1의 형식이 'int'입니다.
+c:\users\user\desktop\work\cs2018\d_19\d_19\exam_3_udp1.cpp(24): warning C4473: 'printf_s': 서식 문자열에 대한 인수가 충분하게 전달되지 않았습니다.
+  c:\users\user\desktop\work\cs2018\d_19\d_19\exam_3_udp1.cpp(24): note: 자리 표시자 및 해당 매개 변수에는 variadic 인수가 2개 필요하지만 1개가 제공되었습니다.
+  c:\users\user\desktop\work\cs2018\d_19\d_19\exam_3_udp1.cpp(24): note: 누락된 variadic 인수 2이(가) 서식 문자열 '%d'에 필요합니다.
+  d_19.vcxproj -> C:\Users\USER\Desktop\work\cs2018\d_19\Debug\d_19.exe

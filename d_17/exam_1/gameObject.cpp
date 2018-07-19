@@ -29,8 +29,6 @@ namespace cs2018prj
 
 		void Apply(S_GAMEOBJECT *pObj, double _deltaTick)
 		{
-			
-
 			switch (pObj->m_nFSM)
 			{
 			case 0:
@@ -71,9 +69,17 @@ namespace cs2018prj
 
 							if (pWeapon->m_nFSM == 0)  // only sleep mode..
 							{
+								
 								pWeapon->m_nFSM = 10;
 								pWeapon->m_vPos.X = pObj->m_vPos.X;
-								pWeapon->m_vPos.Y = pObj->m_vPos.Y - 2;
+								pWeapon->m_vPos.Y = pObj->m_vPos.Y;
+								/*
+								pWeapon = (S_GAMEOBJECT *)malloc(sizeof(S_GAMEOBJECT));
+								attackObject::fire::Init(pWeapon, irr::core::vector2df(pObj->m_vPos.X, pObj->m_vPos.Y), 7, pWeapon->m_pSprite);
+								pWeapon->m_translation = irr::core::vector2df(-1, -1);
+								attackObject::fire::Activate(pWeapon);
+								*/
+								//cs2018prj::objMng::add(&objMng, pFireObj);
 							}
 						}
 					}
@@ -205,13 +211,15 @@ namespace cs2018prj
 					break;
 				case 11:
 				{
-					if (pObj->m_dbWorkTick > 10)
+					if (pObj->m_dbWorkTick > 5)
 					{
 						pObj->m_nFSM = 100;
 					}
 					else
 					{
-						irr::core::vector2df _vdir(1, 0);
+						if (pObj->m_vPos.Y < 5)
+							pObj->m_nFSM = 100;
+						irr::core::vector2df _vdir(0, -1);
 						_vdir *= pObj->m_dbSpeed;
 						_vdir *= _deltaTick;
 						pObj->m_vPos += _vdir;
