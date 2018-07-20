@@ -1,4 +1,4 @@
-#pragma once
+癤�#pragma once
 
 namespace cs2018prj
 {
@@ -11,9 +11,10 @@ namespace cs2018prj
 		double m_dbWorkTick;
 		void *m_pWeapon;
 		tge_sprite::S_SPRITE_OBJECT *m_pSprite;
-		irr::core::vector2df m_translation;  // 위치 기준으로 다시 이동
+		irr::core::vector2df m_translation;
 		int m_nFSM;
 		bool m_bActive;
+		void *m_pTarget;
 		void(*m_fpApply)(S_GAMEOBJECT *, double);
 		void(*m_fpRender)(S_GAMEOBJECT *, CHAR_INFO *);
 		void(*m_fpClone)(S_GAMEOBJECT *pObj);
@@ -31,7 +32,7 @@ namespace cs2018prj
 		void Activate(S_GAMEOBJECT *pObj);
 	}
 
-	namespace ailenObject
+	namespace enemyObject
 	{
 		struct S_SUBOBJECT
 		{
@@ -46,7 +47,7 @@ namespace cs2018prj
 
 	namespace attackObject
 	{
-		namespace claw
+		namespace beam
 		{
 			struct S_SUBOBJECT
 			{
@@ -55,7 +56,7 @@ namespace cs2018prj
 
 			void Init(S_GAMEOBJECT *pObj, irr::core::vector2df _pos, double _dbspeed, tge_sprite::S_SPRITE_OBJECT *pSpr);
 			void Apply(S_GAMEOBJECT *pObj, double _deltaTick);
-			void Render(S_GAMEOBJECT *pObj, CHAR_INFO *pTargetBuf);
+			void Activate(S_GAMEOBJECT *pObj);
 		}
 
 		namespace fire

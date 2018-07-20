@@ -15,6 +15,7 @@ namespace cs2018prj
 		pObj->m_nFSM = 0;
 		pObj->m_pSprite = pSpr;
 		pObj->m_bActive = false;
+		pObj->m_pTarget = NULL;
 		pObj->m_pWeapon = NULL;
 	}
 
@@ -125,12 +126,12 @@ namespace cs2018prj
 		}
 	}
 
-	namespace ailenObject
+	namespace enemyObject
 	{
 		void Init(S_GAMEOBJECT *pObj, irr::core::vector2df _pos, double _dbspeed, tge_sprite::S_SPRITE_OBJECT *pSpr)
 		{
 			_Init(pObj, _pos, _dbspeed, pSpr);
-			pObj->m_fpApply = cs2018prj::ailenObject::Apply;
+			pObj->m_fpApply = cs2018prj::enemyObject::Apply;
 			pObj->m_fpRender = cs2018prj::playerObject::Render;
 		}
 
@@ -157,10 +158,24 @@ namespace cs2018prj
 				_vdir *= _deltaTick;
 				_vdir.rotateBy(pObj->m_dbAngle);
 				pObj->m_vPos += _vdir;
-				if (pObj->m_dbWorkTick > 3.5)
+				if (pObj->m_dbWorkTick > 2)
 				{
 					pObj->m_dbAngle += 180;
 					pObj->m_dbWorkTick = 0;
+				}
+				if (TGE::input::g_KeyTable['D'])
+				{
+					if (pObj->m_pWeapon)
+					{
+						S_GAMEOBJECT *pWeapon = (S_GAMEOBJECT *)pObj->m_pWeapon;
+
+						if (pWeapon->m_nFSM == 0)  // only sleep mode..
+						{
+							pWeapon->m_nFSM = 10;
+							pWeapon->m_vPos.X = pObj->m_vPos.X;
+							pWeapon->m_vPos.Y = pObj->m_vPos.Y;
+						}
+					}
 				}
 			}
 			break;
@@ -183,9 +198,71 @@ namespace cs2018prj
 
 	namespace attackObject
 	{
-		namespace claw
+		namespace beam
 		{
+			void Init(S_GAMEOBJECT *pObj, irr::core::vector2df _pos, double _dbspeed, tge_sprite::S_SPRITE_OBJECT *pSpr)
+			{
+				_Init(pObj, _pos, _dbspeed, pSpr);
+				pObj->m_fpApply = cs2018prj::attackObject::beam::Apply;
+				pObj->m_fpRender = cs2018prj::playerObject::Render;
+			}
 
+			void Apply(S_GAMEOBJECT *pObj, double _deltaTick)
+			{
+				pObj->m_dbWorkTick += _deltaTick;
+				switch (pObj->m_nFSM)
+				{
+				case 0:
+					break;
+				case 10:
+					pObj->m_bActive = true;
+					pObj->m_nFSM++;
+					pObj->m_dbWorkTick = 0;
+					break;
+				case 11:
+				{
+					if (pObj->m_dbWorkTick > 5)
+					{
+						pObj->m_nFSM = 100;
+					}
+					else
+					{
+						if (pObj->m_vPos.Y > 40)
+							pObj->m_nFSM = 100;
+						irr::core::vector2df _vdir(0, 1);
+						_vdir *= pObj->m_dbSpeed;
+						_vdir *= _deltaTick;
+						pObj->m_vPos += _vdir;
+						if (pObj->m_pTarget) {
+							cs2018prj::S_GAMEOBJECT *pTarget = (cs2018prj::S_GAMEOBJECT *)pObj->m_pTarget;
+
+							irr::core::vector2df a = irr::core::vector2df(pObj->m_vPos.X, pObj->m_vPos.Y);
+							irr::core::vector2df b = irr::core::vector2df(pTarget->m_vPos.X, pTarget->m_vPos.Y);
+
+							double fDist = a.getDistanceFrom(b);
+
+							if (fDist < 3) {
+								pObj->m_nFSM = 100;
+								pTarget->m_nFSM = 100;
+							}
+							
+						}
+					}
+				}
+				break;
+				case 100:
+					pObj->m_bActive = false;
+					pObj->m_nFSM = 0;
+					break;
+				default:
+					break;
+				}
+			}
+
+			void Activate(S_GAMEOBJECT *pObj)
+			{
+				pObj->m_nFSM = 10;
+			}
 		}
 
 		namespace fire
@@ -223,6 +300,22 @@ namespace cs2018prj
 						_vdir *= pObj->m_dbSpeed;
 						_vdir *= _deltaTick;
 						pObj->m_vPos += _vdir;
+						if (pObj->m_pTarget) {
+							cs2018prj::objMng::S_OBJECT_MNG *pTarget =
+								(cs2018prj::objMng::S_OBJECT_MNG *)pObj->m_pTarget;
+
+							irr::core::vector2df a = irr::core::vector2df(pObj->m_vPos.X, pObj->m_vPos.Y);
+							for (int i = 0; i < pTarget->m_nIndex; i++)
+							{
+								irr::core::vector2df b = irr::core::vector2df(pTarget->m_pListObject[i]->m_vPos.X, pTarget->m_pListObject[i]->m_vPos.Y);
+
+								double fDist = a.getDistanceFrom(b);
+								if (fDist < 3) {
+									pObj->m_nFSM = 100;
+									pTarget->m_pListObject[i]->m_nFSM = 100;
+								}
+							}
+						}
 					}
 				}
 				break;
