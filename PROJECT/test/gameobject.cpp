@@ -256,7 +256,7 @@ namespace cs2018prj
 
 							double fDist = a.getDistanceFrom(b);
 
-							if (fDist < 3) {
+							if (fDist < 2) {
 								pObj->m_nFSM = 100;
 								pTarget->m_nFSM = 100;
 							}
