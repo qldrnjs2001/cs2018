@@ -4,6 +4,8 @@
 #include "../../engine/tge.h"
 #include "gameObject.h"
 
+extern bool gameOver;
+
 namespace cs2018prj
 {
 	void _Init(S_GAMEOBJECT *pObj, irr::core::vector2df _pos, double _dbspeed, tge_sprite::S_SPRITE_OBJECT *pSpr)
@@ -12,6 +14,7 @@ namespace cs2018prj
 		pObj->m_dbSpeed = _dbspeed;
 		pObj->m_dbAngle = 0;
 		pObj->m_dbWorkTick = 0;
+		pObj->m_rnd = 0;
 		pObj->m_nFSM = 0;
 		pObj->m_pSprite = pSpr;
 		pObj->m_bActive = false;
@@ -106,6 +109,7 @@ namespace cs2018prj
 				pObj->m_nFSM = 101;
 				break;
 			case 101:
+				gameOver = true;
 				break;
 			default:
 				break;
@@ -131,6 +135,7 @@ namespace cs2018prj
 		void Init(S_GAMEOBJECT *pObj, irr::core::vector2df _pos, double _dbspeed, tge_sprite::S_SPRITE_OBJECT *pSpr)
 		{
 			_Init(pObj, _pos, _dbspeed, pSpr);
+			
 			pObj->m_fpApply = cs2018prj::enemyObject::Apply;
 			pObj->m_fpRender = cs2018prj::playerObject::Render;
 		}
@@ -142,7 +147,7 @@ namespace cs2018prj
 			switch (pObj->m_nFSM)
 			{
 			case 0:  // 
-
+				
 				break;
 			case 10:  // waiting
 			{
@@ -158,12 +163,14 @@ namespace cs2018prj
 				_vdir *= _deltaTick;
 				_vdir.rotateBy(pObj->m_dbAngle);
 				pObj->m_vPos += _vdir;
+
 				if (pObj->m_dbWorkTick > 2)
 				{
 					pObj->m_dbAngle += 180;
 					pObj->m_dbWorkTick = 0;
 				}
-				if (TGE::input::g_KeyTable['D'])
+
+				if (pObj->m_rnd < 3)
 				{
 					if (pObj->m_pWeapon)
 					{
@@ -194,6 +201,13 @@ namespace cs2018prj
 		{
 			pObj->m_nFSM = 10;
 		}
+
+		void createRandomInt(S_GAMEOBJECT *pObj)
+		{
+			srand(time(NULL));
+
+			pObj->m_rnd = rand() % 10;
+		}
 	}
 
 	namespace attackObject
@@ -203,7 +217,6 @@ namespace cs2018prj
 			void Init(S_GAMEOBJECT *pObj, irr::core::vector2df _pos, double _dbspeed, tge_sprite::S_SPRITE_OBJECT *pSpr)
 			{
 				_Init(pObj, _pos, _dbspeed, pSpr);
-<<<<<<< HEAD
 				pObj->m_fpApply = cs2018prj::attackObject::beam::Apply;
 				pObj->m_fpRender = cs2018prj::playerObject::Render;
 			}
@@ -234,7 +247,8 @@ namespace cs2018prj
 						_vdir *= pObj->m_dbSpeed;
 						_vdir *= _deltaTick;
 						pObj->m_vPos += _vdir;
-						if (pObj->m_pTarget) {
+						if (pObj->m_pTarget)
+						{
 							cs2018prj::S_GAMEOBJECT *pTarget = (cs2018prj::S_GAMEOBJECT *)pObj->m_pTarget;
 
 							irr::core::vector2df a = irr::core::vector2df(pObj->m_vPos.X, pObj->m_vPos.Y);
@@ -246,55 +260,6 @@ namespace cs2018prj
 								pObj->m_nFSM = 100;
 								pTarget->m_nFSM = 100;
 							}
-							
-=======
-				pObj->m_fpApply = cs2018prj::attackObject::fire::Apply;
-				pObj->m_fpRender = cs2018prj::playerObject::Render;
-			}
-
-			void Apply(S_GAMEOBJECT *pObj, double _deltaTick)
-			{
-				pObj->m_dbWorkTick += _deltaTick;
-				switch (pObj->m_nFSM)
-				{
-				case 0:
-					break;
-				case 10:
-					pObj->m_bActive = true;
-					pObj->m_nFSM++;
-					pObj->m_dbWorkTick = 0;
-					break;
-				case 11:
-				{
-					if (pObj->m_dbWorkTick > 5)
-					{
-						pObj->m_nFSM = 100;
-					}
-					else
-					{
-						if (pObj->m_vPos.Y < 5)
-							pObj->m_nFSM = 100;
-						irr::core::vector2df _vdir(0, 1);
-						_vdir *= pObj->m_dbSpeed;
-						_vdir *= _deltaTick;
-						pObj->m_vPos += _vdir;
-						if (pObj->m_pTarget) {
-							cs2018prj::objMng::S_OBJECT_MNG *pTarget =
-								(cs2018prj::objMng::S_OBJECT_MNG *)pObj->m_pTarget;
-
-							irr::core::vector2df a = irr::core::vector2df(pObj->m_vPos.X, pObj->m_vPos.Y);
-							for (int i = 0; i < pTarget->m_nIndex; i++)
-							{
-								irr::core::vector2df b = irr::core::vector2df(pTarget->m_pListObject[i]->m_vPos.X, pTarget->m_pListObject[i]->m_vPos.Y);
-
-								double fDist = a.getDistanceFrom(b);
-								//printf("%lf ", fDist);
-								if (fDist < 3) {
-									pObj->m_nFSM = 100;
-									pTarget->m_pListObject[i]->m_nFSM = 100;
-								}
-							}
->>>>>>> 7e5000a546367c72095b306505e86a2ae5cd1a3a
 						}
 					}
 				}
@@ -307,11 +272,11 @@ namespace cs2018prj
 					break;
 				}
 			}
-
 			void Activate(S_GAMEOBJECT *pObj)
 			{
 				pObj->m_nFSM = 10;
 			}
+			
 		}
 
 		namespace fire
@@ -349,9 +314,9 @@ namespace cs2018prj
 						_vdir *= pObj->m_dbSpeed;
 						_vdir *= _deltaTick;
 						pObj->m_vPos += _vdir;
-						if (pObj->m_pTarget) {
-							cs2018prj::objMng::S_OBJECT_MNG *pTarget =
-								(cs2018prj::objMng::S_OBJECT_MNG *)pObj->m_pTarget;
+						if (pObj->m_pTarget)
+						{
+							cs2018prj::objMng::S_OBJECT_MNG *pTarget = (cs2018prj::objMng::S_OBJECT_MNG *)pObj->m_pTarget;
 
 							irr::core::vector2df a = irr::core::vector2df(pObj->m_vPos.X, pObj->m_vPos.Y);
 							for (int i = 0; i < pTarget->m_nIndex; i++)
@@ -359,10 +324,6 @@ namespace cs2018prj
 								irr::core::vector2df b = irr::core::vector2df(pTarget->m_pListObject[i]->m_vPos.X, pTarget->m_pListObject[i]->m_vPos.Y);
 
 								double fDist = a.getDistanceFrom(b);
-<<<<<<< HEAD
-=======
-								//printf("%lf ", fDist);
->>>>>>> 7e5000a546367c72095b306505e86a2ae5cd1a3a
 								if (fDist < 3) {
 									pObj->m_nFSM = 100;
 									pTarget->m_pListObject[i]->m_nFSM = 100;

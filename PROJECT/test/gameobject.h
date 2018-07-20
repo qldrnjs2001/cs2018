@@ -5,7 +5,6 @@ namespace cs2018prj
 	struct S_GAMEOBJECT
 	{
 		double m_dbSpeed;
-		//double m_posx, m_posy;
 		irr::core::vector2df m_vPos;
 		double m_dbAngle;
 		double m_dbWorkTick;
@@ -13,6 +12,7 @@ namespace cs2018prj
 		tge_sprite::S_SPRITE_OBJECT *m_pSprite;
 		irr::core::vector2df m_translation;
 		int m_nFSM;
+		int m_rnd;
 		bool m_bActive;
 		void *m_pTarget;
 		void(*m_fpApply)(S_GAMEOBJECT *, double);
@@ -26,6 +26,7 @@ namespace cs2018prj
 		{
 
 		};
+
 		void Init(S_GAMEOBJECT *pObj, irr::core::vector2df _pos, double _dbspeed, tge_sprite::S_SPRITE_OBJECT *pSpr);
 		void Apply(S_GAMEOBJECT *pObj, double _deltaTick);
 		void Render(S_GAMEOBJECT *pObj, CHAR_INFO *pTargetBuf);
@@ -42,6 +43,7 @@ namespace cs2018prj
 		void Init(S_GAMEOBJECT *pObj, irr::core::vector2df _pos, double _dbspeed, tge_sprite::S_SPRITE_OBJECT *pSpr);
 		void Apply(S_GAMEOBJECT *pObj, double _deltaTick);
 		void Activate(S_GAMEOBJECT *pObj);
+		void createRandomInt(S_GAMEOBJECT *pObj);
 
 	}
 
@@ -51,7 +53,6 @@ namespace cs2018prj
 		{
 			struct S_SUBOBJECT
 			{
-
 			};
 
 			void Init(S_GAMEOBJECT *pObj, irr::core::vector2df _pos, double _dbspeed, tge_sprite::S_SPRITE_OBJECT *pSpr);
